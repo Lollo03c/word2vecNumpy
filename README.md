@@ -12,6 +12,8 @@ Word2Vec learns dense vector representations by exploiting distributional contex
 | **Rare words** | Weak | Good |
 | **Data needed** | Less | More |
 
+*Note: At the end of this document, we will also include a brief comparison with a pure PyTorch implementation.*
+
 ---
 
 ## 2. Training Pipeline
@@ -112,7 +114,7 @@ Hyperparameters: `epochs=20`, `neg_samples=5`, `lr=0.025`, `window=2`, `embedDim
 
 The model was trained for 20 epochs on the first 10,000 tokens of text8. Loss decreases consistently, confirming correct gradient flow.
 
-![Training Loss Curve](Losses.png)
+![Training Loss Curve](LossesNUMPY.png)
 
 *Figure 1 – Training loss over 20 epochs (text8, 10k tokens)*
 
@@ -130,3 +132,19 @@ The steep initial drop is expected: embeddings start from near-zero random value
 | `lr` (initial) | 0.025 | Decays ×0.95 each epoch |
 | `unigram_exp` | 0.75 | Smoothing exponent for negative sampling distribution |
 | `epochs` | 20 | Full passes over all positive pairs |
+
+
+---
+
+---
+
+## 7. Comparison: NumPy vs. PyTorch
+
+To validate the mathematical correctness of our custom from-scratch implementation, a secondary project was created using PyTorch to perform the exact same task. 
+
+As we can see from the pictures below, the loss curves are almost identical. This confirms that the manual gradients and negative sampling math used in the NumPy version are functioning exactly as intended.
+
+<p align="center">
+  <img src="LossesNUMPY.png" alt="NumPy Training Loss" width="48%">
+  <img src="LossesTorch.png" alt="PyTorch Training Loss" width="48%">
+</p>
